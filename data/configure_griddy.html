@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configure GriddyMaster</title>
+</head>
+
+<body onload="loadConfigs()">
+<a href="./configure_griddy_help.html">Page Help</a>
+<p><center>Configure GriddyMaster</center></p> 
+
+<br>
+<form id="config" action="/saveconfig" method="get">
+
+<input type="hidden" name="config" value="grid">
+
+<fieldset><legend>Ercot Configuration</legend>
+Real-Time Price URL &nbsp<input type="text" id="ercot_url" name="ercot_url" size="60"> <br>
+Forecast Price URL &nbsp<input type="text" id="ercot_for" name="ercot_for" size="60"> <br>
+
+Settlement Point &nbsp
+	<select id="stlmt_pnt" name="stlmt_pnt">
+	  <option value="LZ_AEN">LZ_AEN</option>
+	  <option value="LZ_CPS">LZ_CPS</option>
+	  <option value="LZ_HOUSTON">LZ_HOUSTON</option>
+	  <option value="LZ_NORTH">LZ_NORTH</option>
+	  <option value="LZ_RAYBN">LZ_RAYBN</option>
+	  <option value="LZ_SOUTH">LZ_SOUTH</option>
+	  <option value="LZ_WEST">LZ_WEST</option>
+	</select>
+</fieldset>
+
+<fieldset><legend>Griddy Configuration &nbsp</legend>
+
+CACert SHA1 Fingerprint &nbsp
+<input type="text" id="grid_sha1" name="grid_sha1" size="50"> <br>
+
+Real-Time Price URL &nbsp
+<input type="text" id="grid_url" name="grid_url" size="50"> <br>
+
+MeterID &nbsp
+<input type="text" id="grid_mid" name="grid_mid" > <br>
+
+AccountID &nbsp
+<input type="text" id="grid_acct" name="grid_acct"> <br>
+</fieldset>
+<fieldset><legend>Vendor Preferences</legend>
+Real-Time Price Vendor &nbsp
+	<select id="rt_ven" name="rt_ven">
+	  <option value="ER" selected>Ercot</option>
+	  <option value="GR">Griddy</option>
+	</select><br>
+Forecast Price Vendor &nbsp
+	<select id="for_ven" name="for_ven">
+	  <option value="ER" selected>Ercot</option>
+	  <option value="GR">Griddy</option>
+	</select><br>
+</fieldset>
+
+<input type="submit" value="Save">
+</form>
+
+<script>
+
+function loadConfigs(){
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 )
+	if (this.status == 200) {
+    var rtConf = JSON.parse(this.responseText);
+	stlmt_pnt.value = rtConf.stlmt_pnt;
+	grid_url.value = rtConf.grid_url;
+	ercot_url.value = rtConf.ercot_url;
+	ercot_for.value = rtConf.ercot_for;
+	grid_sha1.value = rtConf.grid_sha1;
+	grid_mid.value = rtConf.grid_mid;
+	grid_acct.value = rtConf.grid_acct;
+	rt_ven.value = rtConf.rt_ven;
+	for_ven.value = rtConf.for_ven;
+  } else{
+     alert("Error getting configs...");
+  }
+};
+
+xmlhttp.open("GET", "/getconfig?id=grid", true);
+xmlhttp.send();
+}
+
+
+</script>
+
+</body>
+</html>
+

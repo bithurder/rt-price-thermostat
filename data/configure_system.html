@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configure GriddyMaster</title>
+</head>
+
+<body onload="loadConfigs()">
+<a href="./configure_system_help.html">Help</a>
+<p><center>Configure GriddyMaster</center></p> 
+
+<form aid="config" action="/saveconfig" method="get">
+
+<input type="hidden" name="config" value="sys">
+
+<fieldset><legend>Price Adjustments</legend>
+Real-Time Price Look-back &nbsp
+	<select id="prc_lb" name="prc_lb">
+	  <option value="None">None</option>
+	  <option value="Last" selected>Last</option>
+	  <option value="Last2">Last 2</option>
+	  <option value="Last3">Last 3</option>
+	</select><br>
+Conservation Rampdown Limit &nbsp
+	<select id="c_lim" name="c_lim">
+	  <option value="C1">Conv1</option>
+	  <option value="C2" selected>Conv2</option>
+	  <option value="C3">Conv3</option>
+	</select><br>
+
+Price Forecast Enabled &nbsp
+<input type="hidden" id="prc_fc" name="prc_fc">
+<input type="checkbox" id="prc_fc_c" onclick="prc_fc.value=1-prc_fc.value"><br>
+
+Forecasted Price Spike System Preload &nbsp
+<input type="hidden" id="prel" name="prel">
+<input type="checkbox" id="prel_c" onclick="prel.value=1-prel.value"><br>
+
+Hours &nbsp<input type="range" id="pl_hrs" name="pl_hrs" value="2" min="1" max="4" step="1" oninput="pl_hrs_val.value=this.value">
+<output id="pl_hrs_val">2</output><br>
+
+Temp &nbsp<input type="range" id="pl_temp" name="pl_temp" value="2" min="1" max="4" step="1" oninput="pl_temp_val.value=this.value">
+<output id="pl_temp_val">2</output>&deg;<br>
+
+Price Trigger &nbsp<input type="range" id="pl_prc" name="pl_prc" value="20" min="5" max="100" step="5" oninput="pl_prc_val.value=this.value">
+<output id="pl_prc_val">20</output>&cent;<br>
+
+</fieldset> 
+
+<fieldset><legend>HVAC Options</legend>
+
+<fieldset><legend>Emergency Heat</legend>
+Enabled &nbsp<input type="hidden" id="eh" name="eh">
+<input type="checkbox" id="eh_c" onclick="eh.value=1-eh.value"><br>
+
+Temp Limit &nbsp<input type="range" id="eh_temp" name="eh_temp" value="60" min="0" max="70" step="1" oninput="eh_temp_val.value=this.value">
+<output id="eh_temp_val">60</output>&deg;<br>
+
+Temp Diff Limit &nbsp<input type="range"  id="eh_difft" name="eh_difft" value="5" min="5" max="20" step="1" oninput="eh_difft_val.value=this.value">
+<output id="eh_difft_val">5</output>&deg;<br>
+
+Price Limit &nbsp<input type="range" id="eh_prc" name="eh_prc" value="10" min="0" max="100" step="5" oninput="eh_prc_val.value=this.value">
+<output id="eh_prc_val">10</output>&cent;<br>
+</fieldset>
+
+
+<fieldset><legend>Operating Parameters</legend>
+Idle Min &nbsp<input type="range" id="idle_mn" name="idle_mn" value="5" min="5" max="20" step="1" oninput="idle_mn_val.value=this.value">
+<output id="idle_mn_val">5</output> min<br>
+
+Cycle Min &nbsp<input type="range" id="cyc_mn" name="cyc_mn" value="10" min="10" max="30" step="5" oninput="cyc_mn_val.value=this.value">
+<output id="cyc_mn_val">10</output> min<br>
+
+Cycle Max &nbsp<input type="range" id="cyc_mx" name="cyc_mx" value="60" min="45" max="90" step="5" oninput="cyc_mx_val.value=this.value">
+<output id="cyc_mx_val">60</output> min<br>
+
+Circulation Cycle &nbsp<input type="range" id="fan_c" name="fan_c" value="20" min="0" max="100" step="5" oninput="fan_c_val.value=this.value">
+<output id="fan_c_val">20</output>&percnt;<br>
+
+Pre-Fan &nbsp<input type="range" id="fan_pre" name="fan_pre" value="2" min="0" max="5" step="1" oninput="fan_pre_val.value=this.value">
+<output id="fan_pre_val">2</output> min<br>
+
+Post-Fan &nbsp<input type="range" id="fan_post" name="fan_post" value="2" min="0" max="5" step="1" oninput="fan_post_val.value=this.value">
+<output id="fan_post_val">2</output> min<br>
+</fieldset>
+
+</fieldset>
+
+<fieldset><legend>Conservation Levels</legend>
+<fieldset><legend>Level 1</legend>
+
+Minimum Temp &nbsp<input type="range" id="c1_min" name="c1_min" value="69" min="32" max="100" step=".5" oninput="c1_min_val.value=this.value">
+<output id="c1_min_val">69</output>&deg;<br>
+
+Maximum Temp &nbsp<input type="range" id="c1_max" name="c1_max" value="74" min="32" max="100" step=".5" oninput="c1_max_val.value=this.value">
+<output id="c1_max_val">74</output>&deg;<br>
+</fieldset>
+
+<fieldset><legend>Level 2</legend>
+
+Minimum Temp &nbsp<input type="range" id="c2_min" name="c2_min" value="67" min="32" max="100" step=".5"  oninput="max_limit(c2_min, c2_min, c2_min_val)">
+<output id="c2_min_val">67</output>&deg;<br>
+
+Maximum Temp &nbsp<input type="range" id="c2_max"  name="c2_max" value="76" min="32" max="100" step=".5" oninput="c2_max_val.value=this.value">
+<output id="c2_max_val">76</output>&deg;<br>
+
+Price Level &nbsp<input type="range" id="c2_prc" name="c2_prc" value="8" min="10" max="200" step="5" oninput="c2_prc_val.value=this.value">  
+<output id="c2_prc_val">8</output>&cent;<br>
+</fieldset>
+
+
+<fieldset><legend>Level 3</legend>
+
+Minimum Temp &nbsp<input type="range" id="c3_min" name="c3_min" value="65" min="32" max="100" step=".5"  oninput="max_limit(c3_min, c3_min, c3_min_val)">
+<output id="c3_min_val">67</output>&deg;<br>
+
+Maximum Temp &nbsp<input type="range" id="c3_max"  name="c3_max" value="78" min="32" max="100" step=".5" oninput="c3_max_val.value=this.value">
+<output id="c3_max_val">76</output>&deg;<br>
+
+Price Level &nbsp<input type="range" id="c3_prc" name="c3_prc" value="15" min="5" max="200" step="5" oninput="c3_prc_val.value=this.value">  
+<output id="c3_prc_val">15</output>&cent;<br>
+</fieldset>
+
+<fieldset><legend>Level 4</legend>
+
+Minimum Temp &nbsp<input type="range" id="c4_min" name="c4_min" value="60" min="32" max="100" step=".5"  oninput="max_limit(c4_min, c4_min, c4_min_val)">
+<output id="c4_min_val">67</output>&deg;<br>
+
+Maximum Temp &nbsp<input type="range" id="c4_max"  name="c4_max" value="81" min="32" max="100" step=".5" oninput="c4_max_val.value=this.value">
+<output id="c4_max_val">76</output>&deg;<br>
+
+Price Level &nbsp<input type="range" id="c4_prc" name="c4_prc" value="50" min="5" max="200" step="5" oninput="c4_prc_val.value=this.value">  
+<output id="c4_prc_val">50</output>&cent;<br>
+</fieldset>
+
+</fieldset>
+<input type="submit" value="Save">
+</form>
+
+<script>
+function max_limit(v1,v2,target) {
+	if ( v1.value > v2.value ){ v1.value = v2.value; }
+    target.value = v1.value;
+}
+
+function loadConfigs(){
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 )
+	if (this.status == 200) {
+    var rtConf = JSON.parse(this.responseText);
+
+	prc_lb.value = rtConf.prc_lb;
+	c_lim.value = rtConf.c_lim;
+
+	prc_fc_c.checked = (rtConf.prc_fc=="1");
+	prc_fc.value = rtConf.prc_fc;
+
+	prel_c.checked = (rtConf.prel=="1");
+	prel.value = rtConf.prel;
+
+	pl_hrs.value = rtConf.pl_hrs;
+	pl_hrs_val.value = rtConf.pl_hrs;
+
+	pl_temp.value = rtConf.pl_temp;
+	pl_temp_val.value = rtConf.pl_temp;
+
+	pl_prc.value = rtConf.pl_prc;
+	pl_prc_val.value = rtConf.pl_prc;
+
+	eh_c.checked = (rtConf.eh=="1");
+	eh.value = rtConf.eh;
+
+	eh_temp.value = rtConf.eh_temp;
+	eh_temp_val.value = rtConf.eh_temp;
+
+	eh_difft.value = rtConf.eh_difft;
+	eh_difft_val.value = rtConf.eh_difft;
+
+	eh_prc.value = rtConf.eh_prc;
+	eh_prc_val.value = rtConf.eh_prc;
+
+
+	idle_mn.value = rtConf.idle_mn;
+	idle_mn_val.value = rtConf.idle_mn;
+
+	cyc_mn.value = rtConf.cyc_mn;
+	cyc_mn_val.value = rtConf.cyc_mn;
+
+	cyc_mx.value = rtConf.cyc_mx;
+	cyc_mx_val.value = rtConf.cyc_mx;
+
+	idle_mn.value = rtConf.idle_mn;
+	idle_mn_val.value = rtConf.idle_mn;
+
+	fan_c.value = rtConf.fan_c;
+	fan_c_val.value = rtConf.fan_c;
+
+	fan_pre.value = rtConf.fan_pre;
+	fan_pre_val.value = rtConf.fan_pre;
+
+	fan_post.value = rtConf.fan_post;
+	fan_post_val.value = rtConf.fan_post;
+
+
+	c1_min.value = rtConf.c1_min;
+	c1_min_val.value = rtConf.c1_min;
+	c1_max.value = rtConf.c1_max;
+	c1_max_val.value = rtConf.c1_max;
+
+	c2_min.value = rtConf.c2_min;
+	c2_min_val.value = rtConf.c2_min;
+	c2_max.value = rtConf.c2_max;
+	c2_max_val.value = rtConf.c2_max;
+	c2_prc.value = rtConf.c2_prc;
+	c2_prc_val.value = rtConf.c2_prc;
+
+	c3_min.value = rtConf.c3_min;
+	c3_min_val.value = rtConf.c3_min;
+	c3_max.value = rtConf.c3_max;
+	c3_max_val.value = rtConf.c3_max;
+	c3_prc.value = rtConf.c3_prc;
+	c3_prc_val.value = rtConf.c3_prc;
+
+	c4_min.value = rtConf.c4_min;
+	c4_min_val.value = rtConf.c4_min;
+	c4_max.value = rtConf.c4_max;
+	c4_max_val.value = rtConf.c4_max;
+	c4_prc.value = rtConf.c4_prc;
+	c4_prc_val.value = rtConf.c4_prc;
+
+  } else{
+     alert("Error getting configs...");
+  }
+};
+
+xmlhttp.open("GET", "/getconfig?id=sys", true);
+xmlhttp.send();
+}
+
+
+</script>
+
+</body>
+</html>
+
